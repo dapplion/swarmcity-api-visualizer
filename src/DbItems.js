@@ -7,7 +7,7 @@ class DbItemsView extends Component {
 
     const itemsIndexed = {}
     Object.keys(db)
-    .filter(key => key.startsWith('deal-'))
+    .filter(key => key.startsWith('item-'))
     .forEach(key => {
         const hashtag = key.split('-')[1]
         const itemHash = key.split('-')[2]
