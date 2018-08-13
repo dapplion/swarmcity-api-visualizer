@@ -17,7 +17,7 @@ class SelectHost extends Component {
         <select className="form-control mt-4" id="sel1" onChange={this.connect}>
           <option>Select host...</option>
           <option>dev.swarm.city</option>
-          <option>localhost:8011</option>
+          <option>http://localhost:8011</option>
         </select>
       </div></div>
     );
