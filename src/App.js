@@ -29,7 +29,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title mt-3">Swarm City database visualizer</h1>
+          <h1 className="App-title">Swarm City Database Visualizer</h1>
         </header>
         <SelectHost/>
         <DbItems/>
