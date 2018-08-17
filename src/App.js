@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import DbItems from './DbItems'
+import DbItems from './DbItems';
+import Rooms from './Rooms';
 import PubSub from 'pubsub-js';
 
 
@@ -32,6 +33,7 @@ class App extends Component {
           <h1 className="App-title">Swarm City Database Visualizer</h1>
         </header>
         <SelectHost/>
+        <Rooms/>
         <DbItems/>
       </div>
     );

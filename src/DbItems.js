@@ -15,19 +15,26 @@ class DbItemsView extends Component {
         itemsIndexed[hashtag][itemHash] = db[key]
     })
 
+    const cardStyle = {
+        width: "18rem", 
+        margin: "10px"
+    }
+
     const items = Object.keys(itemsIndexed)
     .map((hashtag, i) => {
         const itemsOfHashtag = itemsIndexed[hashtag]
         return (
             <div key={i} className="mt-4">
                 <h4 style={{opacity: 0.6}}>{hashtag}</h4>
-                <div className="list-group">
+                <div class="container">
+                <div class="row">
                 {
                     Object.keys(itemsOfHashtag).map((key, j) => {
                     const item = itemsOfHashtag[key]
                     const timestamp = parseInt(item.dateTime, 10)*1000
                     return (
-                        <div key={j} className="list-group-item list-group-item-action flex-column align-items-start">
+                        <div key={i} className="card" style={cardStyle}>
+                        <div className="card-body">
                             <div className="d-flex w-100 justify-content-between">
                             <h5 className="mb-1">{item.itemHash.substring(0,12)}...</h5>
                             <small>{(new Date(timestamp)).toLocaleString()}</small>
@@ -38,23 +45,27 @@ class DbItemsView extends Component {
                             </div>
                             <p className="mb-1">{item.description}</p>
                         </div>
+                        </div>
                         )
                     })
                 }
+                </div>
                 </div>
             </div>
         )
     })
 
     const hashtags = (
-        <div className="list-group">
+        <div class="container">
+        <div class="row">
         {
             Object.keys(db)
             .filter(key => key.startsWith('hashtag-'))
             .map((key, i) => {
                 const hashtag = db[key]
                 return (
-                    <div key={i} className="list-group-item list-group-item-action flex-column align-items-start">
+                    <div key={i} className="card" style={cardStyle}>
+                    <div className="card-body">
                         <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{hashtag.hashtagAddress.substring(0,12)}...</h5>
                         <small>{''}</small>
@@ -65,9 +76,11 @@ class DbItemsView extends Component {
                         </div>
                         <p className="mb-1">{hashtag.description}</p>
                     </div>
+                    </div>
                 )
             })
         }
+        </div>
         </div>
     ) 
     
