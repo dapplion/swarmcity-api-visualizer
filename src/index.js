@@ -23,9 +23,17 @@ PubSub.subscribe('connect', (msg, url) => {
         console.log('Connected!!')
         
         socket.emit('getAllDb', {}, (res) => {
-          let db = res.data
-          console.log('All db', db)
-          store.dispatch({ type: 'UPDATE_DB', db })
+            let db = res.data
+            console.log('All db', db)
+            store.dispatch({ type: 'UPDATE_DB', db })
+        })
+
+        socket.on('dbChange', (key, data) => {
+            console.log('db changed - key:', key, 'data:', data)
+            socket.emit('getAllDb', {}, (res) => {
+                let db = res.data
+                store.dispatch({ type: 'UPDATE_DB', db })
+            })
         })
     });
 });

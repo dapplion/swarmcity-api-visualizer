@@ -25,15 +25,16 @@ class DbItemsView extends Component {
                 {
                     Object.keys(itemsOfHashtag).map((key, j) => {
                     const item = itemsOfHashtag[key]
+                    const timestamp = parseInt(item.dateTime, 10)*1000
                     return (
                         <div key={j} className="list-group-item list-group-item-action flex-column align-items-start">
                             <div className="d-flex w-100 justify-content-between">
                             <h5 className="mb-1">{item.itemHash.substring(0,12)}...</h5>
-                            <small>{(new Date(item.dateTime)).toLocaleString()}</small>
+                            <small>{(new Date(timestamp)).toLocaleString()}</small>
                             </div>
                             <div className="d-flex w-100 justify-content-between">
                             <p>{item.seeker.username}</p>
-                            <p>{(parseInt(item.value)/(10**18)).toFixed(2)} SWT</p>
+                            <p>{(parseInt(item.value, 10)/(10**18)).toFixed(2)} SWT</p>
                             </div>
                             <p className="mb-1">{item.description}</p>
                         </div>
@@ -60,7 +61,7 @@ class DbItemsView extends Component {
                         </div>
                         <div className="d-flex w-100 justify-content-between">
                         <p>{hashtag.hashtagName}</p>
-                        <p>{(parseInt(hashtag.hashtagFee)/(10**18)).toFixed(2)} SWT</p>
+                        <p>{(parseInt(hashtag.hashtagFee, 10)/(10**18)).toFixed(2)} SWT</p>
                         </div>
                         <p className="mb-1">{hashtag.description}</p>
                     </div>
