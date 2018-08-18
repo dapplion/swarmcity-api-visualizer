@@ -20,30 +20,50 @@ class DbItemsView extends Component {
         margin: "10px"
     }
 
-    const items = Object.keys(itemsIndexed)
+    const hashtagItems = Object.keys(itemsIndexed)
     .map((hashtag, i) => {
         const itemsOfHashtag = itemsIndexed[hashtag]
         return (
             <div key={i} className="mt-4">
                 <h4 style={{opacity: 0.6}}>{hashtag}</h4>
-                <div class="container">
-                <div class="row">
+                <div className="container">
+                <div className="row">
                 {
-                    Object.keys(itemsOfHashtag).map((key, j) => {
+                    Object.keys(itemsOfHashtag)
+                    .sort((a,b) => (itemsOfHashtag[a].dateTime < itemsOfHashtag[b].dateTime) 
+                        ? 1 
+                        : ((itemsOfHashtag[b].dateTime < itemsOfHashtag[a].dateTime) 
+                            ? -1 
+                            : 0)
+                        )
+                    .map((key, j) => {
                     const item = itemsOfHashtag[key]
                     const timestamp = parseInt(item.dateTime, 10)*1000
+                    const itemShortHash = item.itemHash.substring(0,12)
+                    const logItem = () => {
+                        console.log('REQUESTED ITEM '+itemShortHash, item)
+                    }
+                    const replies = item.replies || []
+                    const selectee = item.selectee ? 'Selectee: '+item.itemHash.substring(0,8) : null
                     return (
-                        <div key={i} className="card" style={cardStyle}>
+                        <div key={j} className="card" style={cardStyle} onClick={logItem}>
                         <div className="card-body">
                             <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{item.itemHash.substring(0,12)}...</h5>
-                            <small>{(new Date(timestamp)).toLocaleString()}</small>
+                                <h5 className="mb-1">{itemShortHash}...</h5>
+                                <small>{(new Date(timestamp)).toLocaleString()}</small>
                             </div>
                             <div className="d-flex w-100 justify-content-between">
-                            <p>{item.seeker.username}</p>
-                            <p>{(parseInt(item.value, 10)/(10**18)).toFixed(2)} SWT</p>
+                                <p>{item.seeker.username}</p>
+                                <p>{(parseInt(item.value, 10)/(10**18)).toFixed(2)} SWT</p>
                             </div>
+                            <hr></hr>
                             <p className="mb-1">{item.description}</p>
+                            <hr></hr>
+                            <div className="d-flex w-100 justify-content-between">
+                            <p className="mb-1" style={{opacity: replies.length ? 1 : 0.2}}>{replies.length+' replies'}</p>
+                            <p className="mb-1" style={{opacity: selectee ? 1 : 0.2}}>{selectee || 'No selectee'}</p>
+                            </div>
+                            
                         </div>
                         </div>
                         )
@@ -56,8 +76,8 @@ class DbItemsView extends Component {
     })
 
     const hashtags = (
-        <div class="container">
-        <div class="row">
+        <div className="container">
+        <div className="row">
         {
             Object.keys(db)
             .filter(key => key.startsWith('hashtag-'))
@@ -87,7 +107,7 @@ class DbItemsView extends Component {
     return (
         <div>
             <h1 className="mt-4">Hashtag items</h1>
-            {items}
+            {hashtagItems}
             <h1 className="mt-4">Hashtags</h1>
             {hashtags}
         </div>

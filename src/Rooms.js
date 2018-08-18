@@ -41,8 +41,8 @@ class RoomsView extends Component {
     return (
         <div>
             <h1 className="mt-4">Rooms</h1>
-            <div class="container">
-                <div class="row">
+            <div className="container">
+                <div className="row">
                     {roomsItems}
                 </div>
             </div>
