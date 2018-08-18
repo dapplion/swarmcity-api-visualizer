@@ -52,7 +52,7 @@ class DbItemsView extends Component {
                     const logItem = () => {
                         console.log('REQUESTED ITEM '+itemShortHash, item)
                     }
-                    const replies = item.replies || []
+                    const replies = item.numberOfReplies
                     const selectee = item.selectee ? 'Selectee: '+item.itemHash.substring(0,8) : null
                     const seeker = item.seeker ? item.seeker.username : ''
                     
@@ -75,7 +75,7 @@ class DbItemsView extends Component {
                                 <p className="mb-1"> . </p>
                             </div>
                             <div className="d-flex w-100 justify-content-between">
-                                <p className="mb-1" style={{opacity: replies.length ? 1 : 0.2}}>{replies.length+' replies'}</p>
+                                <p className="mb-1" style={{opacity: replies ? 1 : 0.2}}>{replies+' replies'}</p>
                                 <p className="mb-1" style={{opacity: selectee ? 1 : 0.2}}>{selectee || 'No selectee'}</p>
                             </div>
                             
