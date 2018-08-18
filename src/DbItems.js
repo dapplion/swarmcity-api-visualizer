@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
+const states = [
+    'Open',
+    'Funded',
+    'Done',
+    'Disputed',
+    'Resolved',
+    'Cancelled'
+]
+
 class DbItemsView extends Component {
   render() {
     const db = this.props.db
@@ -39,12 +48,14 @@ class DbItemsView extends Component {
                     .map((key, j) => {
                     const item = itemsOfHashtag[key]
                     const timestamp = parseInt(item.dateTime, 10)*1000
-                    const itemShortHash = item.itemHash.substring(0,12)
+                    const itemShortHash = item.itemHash ? item.itemHash.substring(0,12) : item.itemHash
                     const logItem = () => {
                         console.log('REQUESTED ITEM '+itemShortHash, item)
                     }
                     const replies = item.replies || []
                     const selectee = item.selectee ? 'Selectee: '+item.itemHash.substring(0,8) : null
+                    const seeker = item.seeker ? item.seeker.username : ''
+                    
                     return (
                         <div key={j} className="card" style={cardStyle} onClick={logItem}>
                         <div className="card-body">
@@ -53,15 +64,19 @@ class DbItemsView extends Component {
                                 <small>{(new Date(timestamp)).toLocaleString()}</small>
                             </div>
                             <div className="d-flex w-100 justify-content-between">
-                                <p>{item.seeker.username}</p>
+                                <p>{seeker}</p>
                                 <p>{(parseInt(item.value, 10)/(10**18)).toFixed(2)} SWT</p>
                             </div>
                             <hr></hr>
                             <p className="mb-1">{item.description}</p>
                             <hr></hr>
                             <div className="d-flex w-100 justify-content-between">
-                            <p className="mb-1" style={{opacity: replies.length ? 1 : 0.2}}>{replies.length+' replies'}</p>
-                            <p className="mb-1" style={{opacity: selectee ? 1 : 0.2}}>{selectee || 'No selectee'}</p>
+                                <p className="mb-1"style={{color: item.status == 0 ? 'green' : 'red'}}>{states[item.status]}</p>
+                                <p className="mb-1"> . </p>
+                            </div>
+                            <div className="d-flex w-100 justify-content-between">
+                                <p className="mb-1" style={{opacity: replies.length ? 1 : 0.2}}>{replies.length+' replies'}</p>
+                                <p className="mb-1" style={{opacity: selectee ? 1 : 0.2}}>{selectee || 'No selectee'}</p>
                             </div>
                             
                         </div>
